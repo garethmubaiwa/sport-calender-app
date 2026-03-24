@@ -19,7 +19,7 @@ class EventService:
         """
         row = dict(row)
         row["date_venue"] = str(row["date_venue"]) if row.get("date_venue") else None
-        row["time_venue_utc"] = str(row["time_venue_utc"]) if row.get("time_venue_utc") else None
+        row["time_venue"] = str(row["time_venue"]) if row.get("time_venue") else None
         return row
 
 
@@ -83,9 +83,10 @@ class EventService:
             away_id    = away_row["team_id"] if away_row else self._repo.create_team(data["away_team_name"])
 
             # Step 6 — Event
+            event_name = f"{data['home_team_name']} vs {data['away_team_name']}"
             event_id = self._repo.create_event(
-                data["season"], data["status"], data["date_venue"],
-                data.get("time_venue_utc"),
+                data["season"], data["status"], event_name, data["date_venue"],
+                data.get("time_venue"),
                 home_id, away_id, comp_id, stage_id
             )
 

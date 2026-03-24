@@ -21,6 +21,7 @@ def get_db_connection(config: dict) -> MySQLConnectionAbstract:
     """
     connection = None
     try:
+        print(f"DEBUG CONNECTION CONFIG: {config} (Port type: {type(config.get('port'))})")
         connection = mysql.connector.connect(**config)
         if connection.is_connected():
             return connection # type: ignore

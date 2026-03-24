@@ -7,7 +7,7 @@ _EVENTS_QUERY = """
         e.season,
         e.status,
         e.date_venue,
-        e.time_venue_utc,
+        e.time_venue,
         s.name AS sport_name,
         c.name AS competition_name,
         st.name AS stage_name,
@@ -72,7 +72,7 @@ class Repository:
         if conditions:
             query += " WHERE " + " AND ".join(conditions)
 
-        query += " ORDER BY e.date_venue ASC, e.time_venue_utc ASC"
+        query += " ORDER BY e.date_venue ASC, e.time_venue ASC"
 
         self.cursor.execute(query, params)
         return cast(list[dict], self.cursor.fetchall())
@@ -83,16 +83,16 @@ class Repository:
         return cast(dict | None, self.cursor.fetchone())
 
     # event writer methods
-    def create_event(self, season, status, date_venue, time_venue_utc, home_team_id, away_team_id, competition_id, stage_id) -> int:
+    def create_event(self, season, status, name, date_venue, time_venue, home_team_id, away_team_id, competition_id, stage_id) -> int:
         """Inserts a new event row. Returns the new event_id."""
         self.cursor.execute(
             """
             INSERT INTO event
-                (season, status, date_venue, time_venue_utc,
+                (season, status, name, date_venue, time_venue,
                  _home_team_id, _away_team_id, _competition_id, _stage_id)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
             """,
-            (season, status, date_venue, time_venue_utc,
+            (season, status, name, date_venue, time_venue,
              home_team_id, away_team_id, competition_id, stage_id)
         )
         return cast(int, self.cursor.lastrowid)
@@ -100,8 +100,8 @@ class Repository:
 
     # sport, competition, stage, team writer and reader methods
     def get_all_sport_names(self) -> list[dict]:
-        """Returns all sport rows, sorted alphabetically."""
-        self.cursor.execute("SELECT sport_id, name FROM sport ORDER BY name")
+        """Returns all distinct sport names, sorted alphabetically."""
+        self.cursor.execute("SELECT DISTINCT name FROM sport ORDER BY name")
         return cast(list[dict], self.cursor.fetchall())
 
     def find_sport(self, name: str) -> dict | None:
@@ -155,6 +155,10 @@ class Repository:
         return cast(dict | None, self.cursor.fetchone())
 
     def create_team(self, name: str) -> int:
-        """Inserts a new team with just a name. Returns team_id."""
-        self.cursor.execute("INSERT INTO team (name) VALUES (%s)", (name,))
+        """Inserts a new team with a name and slug. Returns team_id."""
+        slug = name.lower().replace(" ", "-")
+        self.cursor.execute(
+            "INSERT INTO team (name, official_name, slug, abbreviation, country_code) VALUES (%s, %s, %s, %s, %s)",
+            (name, name, slug, "", "")
+        )
         return cast(int, self.cursor.lastrowid)

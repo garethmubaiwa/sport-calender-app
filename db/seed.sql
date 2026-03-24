@@ -28,20 +28,20 @@ INSERT IGNORE INTO team (name, official_name, slug, abbreviation, country_code) 
 INSERT IGNORE INTO team (name, official_name, slug, abbreviation, country_code) VALUES ('Shabab Al Ahli', 'SHABAB AL AHLI DUBAI', 'shabab-al-ahli-club', 'SAH', 'UAE');
  
 -- AFC Match 1: Al Shabab vs Nasaf (played)
-INSERT INTO event (season, status, date_venue, time_venue_utc, _home_team_id, _away_team_id, _competition_id, _stage_id) VALUES (
-    2024, 'played', '2024-01-03', '00:00:00',
-    (SELECT team_id FROM team WHERE slug = 'al-shabab-fc'),
-    (SELECT team_id FROM team WHERE slug = 'fc-nasaf-qarshi'),
-    (SELECT competition_id FROM competition WHERE slug = 'afc-champions-league'),
-    (SELECT stage_id FROM stage WHERE name = 'ROUND OF 16' AND _competition_id = (SELECT competition_id FROM competition WHERE slug = 'afc-champions-league'))
+INSERT INTO event (season, status, name, date_venue, time_venue, _home_team_id, _away_team_id, _competition_id, _stage_id) VALUES (
+    2024, 'played', 'Al Shabab vs Nasaf', '2024-01-03', '00:00:00',
+    (SELECT team_id FROM team WHERE slug = 'al-shabab-fc' LIMIT 1),
+    (SELECT team_id FROM team WHERE slug = 'fc-nasaf-qarshi' LIMIT 1),
+    (SELECT competition_id FROM competition WHERE slug = 'afc-champions-league' LIMIT 1),
+    (SELECT stage_id FROM stage WHERE name = 'ROUND OF 16' AND _competition_id = (SELECT competition_id FROM competition WHERE slug = 'afc-champions-league' LIMIT 1) LIMIT 1)
 );
 INSERT INTO result (_event_id, home_goals, away_goals, winner) VALUES (LAST_INSERT_ID(), 1, 2, 'Nasaf');
  
 -- AFC Match 2: Al Hilal vs Shabab Al Ahli (scheduled)
-INSERT INTO event (season, status, date_venue, time_venue_utc, _home_team_id, _away_team_id, _competition_id, _stage_id) VALUES (
-    2024, 'scheduled', '2024-01-03', '16:00:00',
-    (SELECT team_id FROM team WHERE slug = 'al-hilal-saudi-fc'),
-    (SELECT team_id FROM team WHERE slug = 'shabab-al-ahli-club'),
-    (SELECT competition_id FROM competition WHERE slug = 'afc-champions-league'),
-    (SELECT stage_id FROM stage WHERE name = 'ROUND OF 16' AND _competition_id = (SELECT competition_id FROM competition WHERE slug = 'afc-champions-league'))
+INSERT INTO event (season, status, name, date_venue, time_venue, _home_team_id, _away_team_id, _competition_id, _stage_id) VALUES (
+    2024, 'scheduled', 'Al Hilal vs Shabab Al Ahli', '2024-01-03', '16:00:00',
+    (SELECT team_id FROM team WHERE slug = 'al-hilal-saudi-fc' LIMIT 1),
+    (SELECT team_id FROM team WHERE slug = 'shabab-al-ahli-club' LIMIT 1),
+    (SELECT competition_id FROM competition WHERE slug = 'afc-champions-league' LIMIT 1),
+    (SELECT stage_id FROM stage WHERE name = 'ROUND OF 16' AND _competition_id = (SELECT competition_id FROM competition WHERE slug = 'afc-champions-league' LIMIT 1) LIMIT 1)
 );

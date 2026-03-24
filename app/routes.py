@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, render_template, current_app
-from service  import EventService
+from service import EventService
 from database import get_db_connection, close_db_connection
-
+from config import get_env_variable
 bp = Blueprint("events", __name__)
 
 
@@ -11,7 +11,8 @@ def _make_service():
     We return the connection too so routes can close it in
     a finally block even if the service raises an exception.
     """
-    config     = current_app.config["DB_CONFIG"]
+    
+    config     = get_env_variable()
     connection = get_db_connection(config)
     service    = EventService(connection)  # type: ignore
     return service, connection
