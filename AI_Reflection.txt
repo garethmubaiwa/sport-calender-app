@@ -1,0 +1,66 @@
+AI Reflection
+=============
+Sports Event Calendar 
+
+
+How AI Was Used in This Project
+--------------------------------
+
+I used Claude, Copilot (vs code)  alongside third-party frameworks to accelerate my workflow, validate my logic, and ensure high code quality throughout the development of the project. 
+This file is an honest account of what I used it for, how I used it, and what I learned from the process.
+
+1. Code Validation and Refactoring
+----------------------------------
+I independently designed and wrote the core architecture, including the database schema, the Repository layer (SQL execution), and the Service layer (business logic and ACID transaction management). 
+Once drafted, I used AI and VS Code Copilot to review the code, suggest minor syntax fixes, and refine the implementation to ensure it met professional standards.
+
+
+2. Database Design (ERD and Schema)
+-------------------------------------
+After i had designed a rough sketch of the schema and table relationships, i then used Claude to help me expand my idea and assist with the design of the schema using the Mermaid.js editor.
+I asked follow-up questions when I did not understand specific decisions, such as why both home and away teams can reference the same team table with different column names.
+
+
+3. Writing the Code
+--------------------
+For each file I asked Copilot to to explain its improvements on my draft code and how its auto completion code would make my code more professional. 
+I asked for assistance implementating Flask as i has not used it before. Quickly got to learn the basics, its use and how it is implementated in a professional environment.
+
+
+4. Writing Tests 
+----------------
+I utilized AI to assist in drafting mock test structures and relied on VS Code's Copilot auto-completion to quickly generate standard code skeletons and format my inline documentation and comments.
+
+I questioned Claudeon the use of MagicMock() and it explained that because of Dependency Inversion — the connection being passed in as a parameter — we can substitute a MagicMock() for the real connection in tests. 
+The code under test never knows the difference.
+
+The most important test I learned to write was test_rollback_called_on_failure, which verifies ACID Atomicity directly: when a fake exception is raised
+mid-transaction, rollback() is called and commit() is not. This test would catch a real bug if someone accidentally removed the rollback() call.
+
+
+5. Debugging
+-------------
+When tests failed I described the error message to Copilot and asked it to help me understand what went wrong and the file associated with the error message. 
+Understanding why the error happened was more useful than just being given the fix.
+
+
+What I Did Myself
+------------------
+- Wrote the initial project file skeletons independently
+- Wrote, Read and re-read every file until I could explain what each line does
+- Asked follow-up questions whenever an explanation was not clear
+- Made decisions about structure when AI offered options (for example, choosing one repository.py over multiple separate files to keep the project at an appropriate level of complexity)
+- Ran the tests myself and interpreted the output
+- Wrote this reflection honestly
+
+
+What I Would Do Differently
+-----------------------------
+In the future I would write tests at the same time as the code rather than after. Writing test_rollback_called_on_failure before writing the service would have made me think more carefully about where commit() and rollback() should live before writing any implementation.
+
+
+Summary
+--------
+AI was useful as a tutor and coding partner throughout this project. It did not replace understanding — it created opportunities to ask questions and validate my own understanding.
+
+The code in this project is work by me with the assistance of AI. I can confirm understanding of the code and its use.
