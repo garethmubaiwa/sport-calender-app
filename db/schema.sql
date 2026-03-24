@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS sport(
 ) ENGINE=InnoDB;
 
 CREATE TABLE IF NOT EXISTS competition (
-    competition_id  INT AUTO_INCREMENT PRIMARY KEY
+    competition_id  INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     sport_id INT,
     FOREIGN KEY (sport_id) REFERENCES sport(sport_id)
@@ -47,7 +47,7 @@ create table if not exists event(
     _away_team_id INT,
     _competition_id INT,
     _venue_id INT,
-    _stage_id INT
+    _stage_id INT,
 
     FOREIGN KEY (_home_team_id) REFERENCES team(team_id),
     FOREIGN KEY (_away_team_id) REFERENCES team(team_id),
@@ -62,8 +62,6 @@ create table if not exists result(
     home_goals INT,
     away_goals INT,
     winnner VARCHAR(50),
-
-    -- Foreign key
     _event_id INT,
     FOREIGN KEY (_event_id) REFERENCES event(event_id)
 ) ENGINE=InnoDB;
