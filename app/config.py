@@ -9,6 +9,6 @@ def get_env_variable()-> dict:
         "host": os.environ.get("DB_HOST", "host"),
         "database": os.environ.get("DB_NAME", "sports_calendar"),
         "user": os.environ.get("DB_USER", "root"),
-        "password": os.environ.get("DB_PASSWORD", "password"),
+        "password": os.environ.get("DB_PASSWORD", ""),
         "port": int(os.environ.get("DB_PORT", 3306))
     }

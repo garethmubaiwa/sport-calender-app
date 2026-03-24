@@ -42,7 +42,7 @@ def close_db_connection(connection: MySQLConnectionAbstract) -> None:
         None
 
     Raises:
-        Error: If there is an error while closing the connection, an exception will be raised with details about the error.
+        Error: If there is an error while closing the connection, an exception will be raised with details.
     """
     try:
         if connection.is_connected():
