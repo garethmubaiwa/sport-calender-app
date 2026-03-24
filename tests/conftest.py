@@ -61,7 +61,7 @@ def new_event_payload():
 @pytest.fixture
 def flask_app():
     """Flask app in testing mode — raises exceptions instead of showing error pages."""
-    from app.app import create_app
+    from app import create_app
     app = create_app()
     app.config["TESTING"] = True
     return app
